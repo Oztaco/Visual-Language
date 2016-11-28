@@ -66,6 +66,22 @@ public class AugustaDeveloper extends Application {
         bus.setLayoutX(200);
         bus.setLayoutY(76);
 
+        ForwardBlock f = new ForwardBlock();
+        f.setLayoutX(300);
+        f.setLayoutY(200);
+
+        TurnBlock t = new TurnBlock();
+        t.setLayoutX(300);
+        t.setLayoutY(230);
+
+        DropCrumbBlock d = new DropCrumbBlock();
+        d.setLayoutX(300);
+        d.setLayoutY(260);
+
+        EatBlock e = new EatBlock();
+        e.setLayoutX(300);
+        e.setLayoutY(290);
+
         // BEGIN DRAG
         bus.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
@@ -102,7 +118,7 @@ public class AugustaDeveloper extends Application {
 
 
 
-        root.getChildren().add(bus);
+        root.getChildren().addAll(bus, f, t, d, e);
 
         primaryStage.setScene(new Scene(root, 800, 600));
         primaryStage.show();

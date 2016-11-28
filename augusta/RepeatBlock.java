@@ -1,7 +1,7 @@
 package augusta;
 
 /**
- * Created by efeec on 11/28/2016.
+ * Created by Efe Ozturkoglu
  */
 
 import javafx.application.Application;
@@ -37,3 +37,5 @@ public class RepeatBlock extends BlockControl {
         this.blockTypeLabel.setText("Repeat");
     }
 }
+
+// TODO: Make this inherit a Loop class, then implement While as well.

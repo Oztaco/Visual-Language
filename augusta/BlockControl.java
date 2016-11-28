@@ -15,6 +15,8 @@ public class BlockControl extends Pane {
         super();
         blockTypeLabel.setLayoutX(Theme.UI.BLOCK_UNIT_SIZE);
         this.getChildren().add(blockTypeLabel);
+        this.setMinWidth(Theme.UI.BLOCK_WIDTH);
+        this.setMinHeight(Theme.UI.BLOCK_UNIT_SIZE);
     }
 
     public int getPixelHeight() {
