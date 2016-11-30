@@ -15,6 +15,7 @@ public class ConditionBlock extends BlockControl {
     public ConditionBlock() {
         super();
         this.setUnitHeight(5);
+        this.blockCategory = BlockCategories.Conditional;
         childCommandsIf.setLayoutY(Theme.UI.BLOCK_UNIT_SIZE);
         childCommandsIf.setLayoutX(Theme.UI.BLOCK_UNIT_SIZE);
         childCommandsIf.setPrefWidth(Theme.UI.BLOCK_WIDTH - Theme.UI.BLOCK_UNIT_SIZE);

@@ -24,13 +24,12 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
+import static augusta.CodeEditor.commandsList;
+import static augusta.CodeEditor.root;
 import static augusta.Theme.*;
 import static augusta.Theme.UI.PALETTE_COLOR;
 
 public class AugustaDeveloper extends Application {
-
-    public Pane root; // The root of the GUI
-    public VBox commandsList; // The user drags blocks from the palette to this control
 
     public static void main(String[] args) {
         launch(args);
@@ -68,18 +67,18 @@ public class AugustaDeveloper extends Application {
 
             VBox codeArea = new VBox();
                 codeArea.setPadding(new Insets(15, 15, 15, 15));
-            codeArea.setStyle("-fx-background-color: #00ff00");
+            codeArea.setStyle("-fx-background-color: #eeffee");
                 commandsList = new VBox();
-                    commandsList.setStyle("-fx-background-color: #ff0000");
+                    commandsList.setStyle("-fx-background-color: #ffeeee");
                     commandsList.setFillWidth(true);
-                    commandsList.setPrefHeight(200);
+                    commandsList.prefHeightProperty().bind(primaryStage.heightProperty());
                 codeArea.getChildren().add(commandsList);
             GridPane.setConstraints(codeArea, 1, 1);
         GridPane.setHgrow(codeArea, Priority.ALWAYS);
 
         mainPanel.getChildren().addAll(topBar, palette, codeArea);
 
-        root.getChildren().add(mainPanel);
+        CodeEditor.root.getChildren().add(mainPanel);
 
         populatePalette(palette);
 

@@ -27,6 +27,7 @@ public class LoopBlock extends BlockControl {
     public LoopBlock() {
         super();
         this.setUnitHeight(3);
+        this.blockCategory = BlockCategories.Loop;
         childCommands.setLayoutY(Theme.UI.BLOCK_UNIT_SIZE);
         childCommands.setLayoutX(Theme.UI.BLOCK_UNIT_SIZE);
         childCommands.setPrefWidth(Theme.UI.BLOCK_WIDTH - Theme.UI.BLOCK_UNIT_SIZE);
