@@ -46,9 +46,10 @@ public class CodeEditor {
             }
             else {
                 boolean commandAdded = false;
+                int accumulatedHeight = 0;
                 for (int line = 0; line < commandsList.getChildren().size(); line++) {
                     BlockControl command = (BlockControl)commandsList.getChildren().get(line);
-                    int heightOfCommand = line * Theme.UI.BLOCK_UNIT_SIZE;
+                    int heightOfCommand = accumulatedHeight;
                     int bottomOfCommand = heightOfCommand + command.getPixelHeight();
                     if (heightOfDraggedCommand >= heightOfCommand && heightOfDraggedCommand < bottomOfCommand) {
                         if (command.blockCategory == BlockControl.BlockCategories.Command) {
@@ -60,7 +61,9 @@ public class CodeEditor {
                         else if (command.blockCategory == BlockControl.BlockCategories.Loop) {
                             // If the block at that line is a "loop" then add the new
                             // block into it
-                            // TODO:
+                            int relativeHeight = heightOfDraggedCommand - heightOfCommand;
+                            ((LoopBlock)commandsList.getChildren().get(line)).addCommand(relativeHeight, draggingItem);
+                            commandAdded = true;
                         }
                         else if (command.blockCategory == BlockControl.BlockCategories.Conditional) {
                             // If the block at that line is a "conditional" then add the nw
@@ -68,6 +71,9 @@ public class CodeEditor {
                             // TODO
                         }
                         break;
+                    }
+                    else {
+                        accumulatedHeight += command.getPixelHeight();
                     }
                 }
                 if (!commandAdded) {
