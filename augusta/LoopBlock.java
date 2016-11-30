@@ -21,10 +21,17 @@ import jdk.nashorn.internal.ir.Block;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RepeatBlock extends LoopBlock {
-    public RepeatBlock() {
+public class LoopBlock extends BlockControl {
+    public VBox childCommands = new VBox();
+
+    public LoopBlock() {
         super();
-        this.setStyle("-fx-background-color: " + Theme.Blocks.REPEAT);
-        this.blockTypeLabel.setText("Repeat");
+        this.setUnitHeight(3);
+        childCommands.setLayoutY(Theme.UI.BLOCK_UNIT_SIZE);
+        childCommands.setLayoutX(Theme.UI.BLOCK_UNIT_SIZE);
+        childCommands.setPrefWidth(Theme.UI.BLOCK_WIDTH - Theme.UI.BLOCK_UNIT_SIZE);
+        childCommands.setMinHeight(Theme.UI.BLOCK_UNIT_SIZE);
+        childCommands.setStyle("-fx-background-color: " + Theme.UI.WORKSPACE_COLOR);
+        this.getChildren().add(childCommands);
     }
 }

@@ -1,5 +1,7 @@
 package augusta;
 
+import javafx.scene.control.Label;
+
 /**
  * Created by Efe Ozturkoglu
  */
