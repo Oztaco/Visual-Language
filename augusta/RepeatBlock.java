@@ -4,8 +4,11 @@ package augusta;
  * Created by Efe Ozturkoglu
  */
 
+import augusta.tree.ProgNode;
+import augusta.tree.Repeat;
 import javafx.application.Application;
 import javafx.event.EventHandler;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -26,5 +29,17 @@ public class RepeatBlock extends LoopBlock {
         super();
         this.setStyle("-fx-background-color: " + Theme.Blocks.REPEAT);
         this.blockTypeLabel.setText("Repeat");
+    }
+
+    @Override
+    public ProgNode getProgNode() {
+        List<ProgNode> coms = new ArrayList<>();
+        for (Node n : this.childCommands.getChildren()) {
+            BlockControl block = (BlockControl)n;
+            ProgNode p = block.getProgNode();
+            coms.add(p);
+        }
+        Repeat r = new Repeat(2, coms);
+        return r;
     }
 }

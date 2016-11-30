@@ -1,11 +1,24 @@
 package augusta;
 
+import augusta.tree.ProgNode;
 import javafx.animation.AnimationTimer;
 import javafx.geometry.Bounds;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
+import javafx.stage.Window;
+
+import java.io.*;
+import java.nio.file.AccessDeniedException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Efe Ozturkoglu
@@ -93,4 +106,47 @@ public class CodeEditor {
         else
             endDrag(e);
     }
+
+    public static void saveProgram(Window owner) {
+        Alert alert = new Alert(Alert.AlertType.ERROR,
+                "The file could not be saved for an unknown reason.",
+                ButtonType.OK);
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Choose save location");
+        fileChooser.setInitialFileName("MyProgram.aug");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Augusta Programs (*.aug)", "*.aug"));
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("All files", "*.*"));
+
+        File file = fileChooser.showSaveDialog(owner);
+        if (file != null) {
+            List<ProgNode> prog = compileProgram();
+            try (ObjectOutputStream oos =
+                         new ObjectOutputStream(
+                                 new FileOutputStream(file.getAbsolutePath()))) {
+                for (ProgNode p : prog) {
+                    oos.writeObject(p);
+                }
+            }
+            catch (AccessDeniedException e) {
+                alert.setContentText("Error: You do not have the required permissions to write to that file.");
+                alert.showAndWait();
+            }
+            catch (IOException e) {
+                alert.setContentText("There was an IO Exception while writing to the file: \n\n" + e.getMessage());
+                alert.showAndWait();
+            }
+        }
+        else {
+            // Do nothing, the user did not choose a file
+        }
+    }
+    public static List<ProgNode> compileProgram() {
+        List<ProgNode> prog = new ArrayList<>();
+        for (Node n : commandsList.getChildren()) {
+            BlockControl block = (BlockControl) n;
+            prog.add(block.getProgNode());
+        }
+        return prog;
+    }
+
 }

@@ -4,30 +4,20 @@ package augusta;
  * Created by Efe Ozturkoglu
  */
 
-import augusta.tree.While;
-import com.sun.org.apache.bcel.internal.classfile.Code;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Control;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
-import jdk.nashorn.internal.ir.Block;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
 import static augusta.CodeEditor.commandsList;
 import static augusta.CodeEditor.root;
-import static augusta.Theme.*;
-import static augusta.Theme.UI.PALETTE_COLOR;
 
 public class AugustaDeveloper extends Application {
 
@@ -55,6 +45,13 @@ public class AugustaDeveloper extends Application {
                 GridPane.setColumnSpan(topBar, 2);
                 Button saveButton = new Button();
                 saveButton.setText("Save");
+                saveButton.addEventHandler(MouseEvent.MOUSE_CLICKED,
+                    new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent event) {
+                        CodeEditor.saveProgram(primaryStage);
+                    }
+                });
                 topBar.getChildren().add(saveButton);
                 topBar.setStyle("-fx-background-color: " + Theme.UI.TOP_BAR_COLOR);
             GridPane.setConstraints(topBar, 0, 0);

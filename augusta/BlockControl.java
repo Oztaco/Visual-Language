@@ -1,5 +1,6 @@
 package augusta;
 
+import augusta.tree.ProgNode;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import jdk.nashorn.internal.ir.Block;
@@ -33,6 +34,17 @@ public class BlockControl extends Pane {
         this.setPrefHeight(pixelHeight);
         this.setPrefWidth(Theme.UI.BLOCK_WIDTH);
     }
+
+    /**
+     * Returns a ProgNode object of the control.
+     * Should be overridden by each control.
+     * @return
+     */
+    public ProgNode getProgNode() {
+        return null;
+    }
+
+
     public enum BlockCategories {
         Command,
         Loop,
