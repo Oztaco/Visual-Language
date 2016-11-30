@@ -5,6 +5,7 @@ package augusta;
  */
 
 import augusta.tree.While;
+import com.sun.org.apache.bcel.internal.classfile.Code;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -16,7 +17,10 @@ import javafx.scene.control.Control;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
+import jdk.nashorn.internal.ir.Block;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,9 +29,7 @@ import static augusta.Theme.UI.PALETTE_COLOR;
 
 public class AugustaDeveloper extends Application {
 
-    private double x = 0;
-    private double y = 0;
-    private boolean down = false;
+    public Pane root; // The root of the GUI
     public VBox commandsList; // The user drags blocks from the palette to this control
 
     public static void main(String[] args) {
@@ -38,7 +40,7 @@ public class AugustaDeveloper extends Application {
     public void start(Stage primaryStage) {
         primaryStage.setTitle("Augusta Developer Studio");
 
-        Pane root = new Pane();
+        root = new Pane();
 
         GridPane mainPanel = new GridPane();
         mainPanel.setStyle("-fx-background-color: #0000ff");
@@ -149,8 +151,44 @@ public class AugustaDeveloper extends Application {
 
         for (BlockControl blockControl : blocks) {
             blockControl.setMaxWidth(Theme.UI.BLOCK_WIDTH);
+
+            blockControl.addEventHandler(MouseEvent.MOUSE_PRESSED,
+                    new EventHandler<MouseEvent>() {
+                        @Override
+                        public void handle(MouseEvent event) {
+                            BlockControl b, newBlock;
+                            newBlock = new BlockControl();
+                            try {
+                                b = (BlockControl) event.getSource();
+                                newBlock = b.getClass().getConstructor().newInstance();
+                                CodeEditor.draggingItem = newBlock;
+                                root.getChildren().add(newBlock);
+                            } catch (Exception e) {
+                                // cry
+                            }
+                            CodeEditor.beginDrag(newBlock, event);
+                        }
+                    }
+            );
+            blockControl.addEventHandler(MouseEvent.MOUSE_MOVED,
+                    new EventHandler<MouseEvent>() {
+                        @Override
+                        public void handle(MouseEvent event) {
+                            CodeEditor.updateDrag(event);
+                        }
+                    }
+            );
+
             palette.getChildren().add(blockControl);
         }
+        root.addEventHandler(MouseEvent.ANY,
+                new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent event) {
+                        CodeEditor.updateDrag(event);
+                    }
+                }
+        );
         palette.setPadding(new Insets(15, 15, 15, 15));
     }
 }
