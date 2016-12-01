@@ -12,6 +12,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Window;
+import jdk.nashorn.internal.ir.Block;
 
 import java.io.*;
 import java.nio.file.AccessDeniedException;
@@ -58,6 +59,13 @@ public class CodeEditor {
         else if (old == Direction.RIGHT) return Direction.AHEAD;
         else if (old == Direction.BEHIND) return Direction.RIGHT;
         else return Direction.BEHIND;
+    }
+
+    public static void refreshSizes() {
+        for (Node n : commandsList.getChildren()) {
+            BlockControl b = (BlockControl) n;
+            b.recalculateSize();
+        }
     }
 
     public static void beginDrag(BlockControl b, MouseEvent e) {
@@ -124,6 +132,7 @@ public class CodeEditor {
         }
         root.getChildren().remove(draggingItem);
         draggingItem = null;
+        refreshSizes();
     }
     public static void updateDrag(MouseEvent e) {
         if (!isDragging || draggingItem == null) return;

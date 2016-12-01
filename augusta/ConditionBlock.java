@@ -46,7 +46,7 @@ public class ConditionBlock extends BlockControl {
         if (addToTopBlock)
             addCommandHelper(relativeHeight, newCommand, childCommandsIf);
         else
-            addCommandHelper(relativeHeight, newCommand, childCommandsElse);
+            addCommandHelper(relativeHeight - (int)(this.childCommandsIf.getLayoutY() + this.childCommandsIf.getHeight()), newCommand, childCommandsElse);
         recalculateSize();
     }
 
@@ -78,7 +78,9 @@ public class ConditionBlock extends BlockControl {
                     else if (command.blockCategory == BlockControl.BlockCategories.Conditional) {
                         // If the block at that line is a "conditional" then add the nw
                         // block into one of the two
-                        // TODO
+                        int newRelativeHeight = relativeHeight - heightOfCommand;
+                        ((ConditionBlock)childCommands.getChildren().get(line)).addCommand(newRelativeHeight, newCommand);
+                        commandAdded = true;
                     }
                     break;
                 }
@@ -90,8 +92,6 @@ public class ConditionBlock extends BlockControl {
                 childCommands.getChildren().add(newCommand);
             }
         }
-
-        this.setUnitHeight(this.getUnitHeight() + newCommand.getUnitHeight());
         int childrenSize = 0;
         for (Node n : childCommands.getChildren()) {
             BlockControl b = (BlockControl)n;
@@ -102,19 +102,31 @@ public class ConditionBlock extends BlockControl {
 
     @Override
     public void recalculateSize() {
-        int newUnitHeight = 2;
+        int newUnitHeight = 1;
         for (Node n : childCommandsIf.getChildren()) {
             BlockControl b = (BlockControl) n;
+            b.recalculateSize();
             newUnitHeight += b.getUnitHeight();
         }
+        childCommandsIf.setPrefHeight(newUnitHeight * Theme.UI.BLOCK_UNIT_SIZE);
+        newUnitHeight++;
         elseLabel.setLayoutY(newUnitHeight * Theme.UI.BLOCK_UNIT_SIZE);
         newUnitHeight += 1; // For the "else" block
         childCommandsElse.setLayoutY(newUnitHeight * Theme.UI.BLOCK_UNIT_SIZE);
+        int elseBlockHeight = 0;
         for (Node n : childCommandsElse.getChildren()) {
             BlockControl b = (BlockControl) n;
+            b.recalculateSize();
             newUnitHeight += b.getUnitHeight();
+            elseBlockHeight += b.getPixelHeight();
         }
+        childCommandsElse.setPrefHeight(elseBlockHeight + Theme.UI.BLOCK_UNIT_SIZE);
         newUnitHeight += 2; // For the piece at the bottom of the block
         this.setUnitHeight(newUnitHeight);
+    }
+
+    @Override
+    public void setUnitHeight(int val) {
+        super.setUnitHeight(val);
     }
 }

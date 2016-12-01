@@ -7,6 +7,7 @@ package augusta;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
@@ -28,7 +29,6 @@ public class AugustaDeveloper extends Application {
     @Override
     public void start(Stage primaryStage) {
         primaryStage.setTitle("Augusta Developer Studio");
-
         root = new Pane();
 
         GridPane mainPanel = new GridPane();
@@ -46,6 +46,7 @@ public class AugustaDeveloper extends Application {
                 Button saveButton = new Button();
                 saveButton.setText("Save");
                 saveButton.setStyle("-fx-base: " + Theme.UI.BUTTON_BASE);
+                saveButton.setPrefWidth(60);
                 saveButton.addEventHandler(MouseEvent.MOUSE_CLICKED,
                     new EventHandler<MouseEvent>() {
                     @Override
@@ -55,6 +56,8 @@ public class AugustaDeveloper extends Application {
                 });
                 topBar.getChildren().add(saveButton);
                 topBar.setStyle("-fx-background-color: " + Theme.UI.TOP_BAR_COLOR);
+                topBar.setAlignment(Pos.CENTER_LEFT);
+                topBar.setPadding(new Insets(0, 0, 0, ((Theme.UI.BLOCK_WIDTH + 30) / 2) - (saveButton.getPrefWidth() / 2)));
             GridPane.setConstraints(topBar, 0, 0);
 
             VBox palette = new VBox(); // The Palette on the left
@@ -127,12 +130,17 @@ public class AugustaDeveloper extends Application {
                             newBlock = new BlockControl();
                             try {
                                 b = (BlockControl) event.getSource();
-                                newBlock = b.getClass().getConstructor().newInstance();
+                                newBlock = b.getClass().getConstructor().newInstance(); // "Buggy line"
                                 CodeEditor.draggingItem = newBlock;
                                 root.getChildren().add(newBlock);
                             } catch (Exception e) {
                                 // cry
+                                // This catch block will never be called. However, the line of code in
+                                // the "try" block above that says "Buggy line" next to it requires
+                                // that we catch many errors. However, none of those errors should
+                                // actually ever occur during execution
                             }
+                            newBlock.makeDraggable();
                             CodeEditor.beginDrag(newBlock, event);
                         }
                     }

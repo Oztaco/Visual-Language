@@ -88,4 +88,21 @@ public class LoopBlock extends BlockControl {
         }
         this.childCommands.setPrefHeight((childrenSize + 1) * Theme.UI.BLOCK_UNIT_SIZE);
     }
+
+    @Override
+    public void recalculateSize() {
+        int childrenUnitSize = 0;
+        for (Node n : childCommands.getChildren()) {
+            BlockControl b = (BlockControl) n;
+            b.recalculateSize();
+            childrenUnitSize += b.getUnitHeight();
+        }
+        this.setUnitHeight(childrenUnitSize + 3);
+    }
+
+    @Override
+    public void setUnitHeight(int val) {
+        super.setUnitHeight(val);
+        childCommands.setPrefHeight((this.getUnitHeight() - 2) * Theme.UI.BLOCK_UNIT_SIZE);
+    }
 }

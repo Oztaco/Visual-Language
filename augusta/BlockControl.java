@@ -1,7 +1,10 @@
 package augusta;
 
 import augusta.tree.ProgNode;
+import com.sun.org.apache.bcel.internal.classfile.Code;
+import javafx.event.EventHandler;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import jdk.nashorn.internal.ir.Block;
 
@@ -19,6 +22,7 @@ public class BlockControl extends Pane {
         blockTypeLabel.setLayoutX(Theme.UI.BLOCK_UNIT_SIZE / 4);
         this.getChildren().add(blockTypeLabel);
         this.setMinWidth(Theme.UI.BLOCK_WIDTH);
+        this.setMaxWidth(Theme.UI.BLOCK_WIDTH);
         this.setMinHeight(Theme.UI.BLOCK_UNIT_SIZE);
     }
 
@@ -47,6 +51,26 @@ public class BlockControl extends Pane {
     public void recalculateSize() {
         unitHeight = 1;
         pixelHeight = unitHeight * Theme.UI.BLOCK_UNIT_SIZE;
+    }
+
+    public void makeDraggable() {
+        BlockControl self = this;
+        this.addEventHandler(MouseEvent.MOUSE_PRESSED,
+                new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent event) {
+                        if (!CodeEditor.isDragging) {
+                            Pane parent = (Pane) ((Pane) self).getParent();
+                            BlockControl parentBlock = null;
+                            parent.getChildren().remove(self);
+                            CodeEditor.root.getChildren().add(self);
+                            if (parentBlock != null) {
+                                parentBlock.recalculateSize();
+                            }
+                            CodeEditor.beginDrag(self, event);
+                        }
+                    }
+        });
     }
 
 
