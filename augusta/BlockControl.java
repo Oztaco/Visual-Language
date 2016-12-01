@@ -16,7 +16,7 @@ public class BlockControl extends Pane {
 
     public BlockControl() {
         super();
-        blockTypeLabel.setLayoutX(Theme.UI.BLOCK_UNIT_SIZE);
+        blockTypeLabel.setLayoutX(Theme.UI.BLOCK_UNIT_SIZE / 4);
         this.getChildren().add(blockTypeLabel);
         this.setMinWidth(Theme.UI.BLOCK_WIDTH);
         this.setMinHeight(Theme.UI.BLOCK_UNIT_SIZE);
@@ -29,8 +29,8 @@ public class BlockControl extends Pane {
         return unitHeight;
     }
     public void setUnitHeight(int val) {
-        unitHeight = val;
-        pixelHeight = unitHeight * Theme.UI.BLOCK_UNIT_SIZE;
+        this.unitHeight = val;
+        this.pixelHeight = this.unitHeight * Theme.UI.BLOCK_UNIT_SIZE;
         this.setPrefHeight(pixelHeight);
         this.setPrefWidth(Theme.UI.BLOCK_WIDTH);
     }
@@ -42,6 +42,11 @@ public class BlockControl extends Pane {
      */
     public ProgNode getProgNode() {
         return null;
+    }
+
+    public void recalculateSize() {
+        unitHeight = 1;
+        pixelHeight = unitHeight * Theme.UI.BLOCK_UNIT_SIZE;
     }
 
 

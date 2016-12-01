@@ -64,9 +64,8 @@ public class AugustaDeveloper extends Application {
 
             VBox codeArea = new VBox();
                 codeArea.setPadding(new Insets(15, 15, 15, 15));
-            codeArea.setStyle("-fx-background-color: #eeffee");
+            codeArea.setStyle("-fx-background-color: " + Theme.UI.WORKSPACE_COLOR);
                 commandsList = new VBox();
-                    commandsList.setStyle("-fx-background-color: #ffeeee");
                     commandsList.setFillWidth(true);
                     commandsList.prefHeightProperty().bind(primaryStage.heightProperty());
                 codeArea.getChildren().add(commandsList);
@@ -78,44 +77,6 @@ public class AugustaDeveloper extends Application {
         CodeEditor.root.getChildren().add(mainPanel);
 
         populatePalette(palette);
-
-        // BEGIN DRAG
-//        bus.addEventHandler(MouseEvent.MOUSE_PRESSED,
-//                new EventHandler<MouseEvent>() {
-//                    @Override
-//                    public void handle(MouseEvent event) {
-//                        x = event.getSceneX();
-//                        y = event.getSceneY();
-//                        down = true;
-//                    }
-//                }
-//        );
-//        bus.addEventHandler(MouseEvent.MOUSE_RELEASED,
-//                new EventHandler<MouseEvent>() {
-//                    @Override
-//                    public void handle(MouseEvent event) {
-//                        down = false;
-//                    }
-//                }
-//        );
-//        bus.addEventHandler(MouseEvent.ANY,
-//                new EventHandler<MouseEvent>() {
-//                    @Override
-//                    public void handle(MouseEvent event) {
-//                        //if (down) {
-//                            bus.setLayoutX(event.getSceneX() - 15);
-//                            bus.setLayoutY(event.getSceneY() - 15);
-//                            //System.out.println("Yep");
-//                        //}
-//                        //else
-//                            //System.out.println("nope");
-//                    }
-//        });
-//        // END DRAG
-
-
-
-
 
         primaryStage.setScene(new Scene(root, 800, 600));
         primaryStage.show();
@@ -144,6 +105,15 @@ public class AugustaDeveloper extends Application {
 
         IfCrumbBlock ifCrumb = new IfCrumbBlock();
         blocks.add(ifCrumb);
+
+        IfBlockBlock ifBlock = new IfBlockBlock();
+        blocks.add(ifBlock);
+
+        DoNothingBlock doNothingBlock = new DoNothingBlock();
+        blocks.add(doNothingBlock);
+
+        HaltBlock haltBlock = new HaltBlock();
+        blocks.add(haltBlock);
 
         for (BlockControl blockControl : blocks) {
             blockControl.setMaxWidth(Theme.UI.BLOCK_WIDTH);

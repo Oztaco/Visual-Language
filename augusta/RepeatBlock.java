@@ -4,6 +4,7 @@ package augusta;
  * Created by Efe Ozturkoglu
  */
 
+import augusta.tree.DoNothing;
 import augusta.tree.ProgNode;
 import augusta.tree.Repeat;
 import javafx.application.Application;
@@ -39,6 +40,7 @@ public class RepeatBlock extends LoopBlock {
             ProgNode p = block.getProgNode();
             coms.add(p);
         }
+        if (coms.size() < 1) coms.add(new DoNothing());
         Repeat r = new Repeat(2, coms);
         return r;
     }

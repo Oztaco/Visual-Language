@@ -1,5 +1,6 @@
 package augusta;
 
+import augusta.properties.Direction;
 import augusta.tree.ProgNode;
 import javafx.animation.AnimationTimer;
 import javafx.geometry.Bounds;
@@ -33,6 +34,31 @@ public class CodeEditor {
     public static double offsetX = 0;
     public static double offsetY = 0;
     public static boolean isDragging = false;
+
+    /**
+     * Called when a user clicks on any control that has a direction component.
+     * Increments the direction clockwise
+     * @param old The current direction
+     * @return The next direction
+     */
+    public static Direction getIncrementedDirection(Direction old) {
+        if (old == Direction.AHEAD) return Direction.RIGHT;
+        else if (old == Direction.RIGHT) return Direction.BEHIND;
+        else if (old == Direction.BEHIND) return Direction.LEFT;
+        else return Direction.AHEAD;
+    }
+
+    /**
+     * Decrements the direction, i.e. gets the next counterclockwise direction
+     * @param old The current direction
+     * @return The next direction
+     */
+    public static Direction getDecrementedDirection(Direction old) {
+        if (old == Direction.AHEAD) return Direction.LEFT;
+        else if (old == Direction.RIGHT) return Direction.AHEAD;
+        else if (old == Direction.BEHIND) return Direction.RIGHT;
+        else return Direction.BEHIND;
+    }
 
     public static void beginDrag(BlockControl b, MouseEvent e) {
         if (isDragging) return;
@@ -81,7 +107,9 @@ public class CodeEditor {
                         else if (command.blockCategory == BlockControl.BlockCategories.Conditional) {
                             // If the block at that line is a "conditional" then add the nw
                             // block into one of the two
-                            // TODO
+                            int relativeHeight = heightOfDraggedCommand - heightOfCommand;
+                            ((ConditionBlock)commandsList.getChildren().get(line)).addCommand(relativeHeight, draggingItem);
+                            commandAdded = true;
                         }
                         break;
                     }
