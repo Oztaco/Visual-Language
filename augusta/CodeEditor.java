@@ -61,6 +61,9 @@ public class CodeEditor {
         else return Direction.BEHIND;
     }
 
+    /**
+     * Recalculates the height of each block based on its children
+     */
     public static void refreshSizes() {
         for (Node n : commandsList.getChildren()) {
             BlockControl b = (BlockControl) n;
@@ -68,6 +71,11 @@ public class CodeEditor {
         }
     }
 
+    /**
+     * Begins the drag and drop operation
+     * @param b The block to drag
+     * @param e The event information from the system
+     */
     public static void beginDrag(BlockControl b, MouseEvent e) {
         if (isDragging) return;
         offsetX = e.getX();
@@ -76,6 +84,13 @@ public class CodeEditor {
         isDragging = true;
         updateDrag(e);
     }
+
+    /**
+     * Ends the drag and drop operation. If the mouse is over the
+     * workspace, the control will be added to the list of commands.
+     * Otherwise, it'll be deleted.
+     * @param e Mouse events passed by the system
+     */
     public static void endDrag(MouseEvent e) {
         if (!isDragging) return;
         isDragging = false;
@@ -88,9 +103,12 @@ public class CodeEditor {
             int lineOfDragged = (int)((e.getY() - b.getMinY()) / Theme.UI.BLOCK_UNIT_SIZE);
             int heightOfDraggedCommand = (int)(e.getY() - b.getMinY());
             System.out.println(lineOfDragged);
-            if (commandsList.getChildren().size() < 1) {
+            if (commandsList.getChildren().size() < 1) { // If there are no other commands
                 commandsList.getChildren().add(draggingItem);
             }
+            // If there are other commands, we must do some math to figure out
+            // if the block we're dragging is going to added inside another block
+            // or before/after it.
             else {
                 boolean commandAdded = false;
                 int accumulatedHeight = 0;
@@ -134,6 +152,12 @@ public class CodeEditor {
         draggingItem = null;
         refreshSizes();
     }
+
+    /**
+     * Called every time the mouse is moved to update the Block's position
+     * and perform the drag and drop operation.
+     * @param e Mouse event information passed by the system.
+     */
     public static void updateDrag(MouseEvent e) {
         if (!isDragging || draggingItem == null) return;
         if (e.isPrimaryButtonDown()) {
@@ -144,6 +168,12 @@ public class CodeEditor {
             endDrag(e);
     }
 
+    /**
+     * Gets all of the Blocks, converts them into progNodes using
+     * block.getProgNode(). It then serializes them and saves to a
+     * file that the user chooses.
+     * @param owner Required parameter to display dialog window.
+     */
     public static void saveProgram(Window owner) {
         Alert alert = new Alert(Alert.AlertType.ERROR,
                 "The file could not be saved for an unknown reason.",
@@ -177,6 +207,12 @@ public class CodeEditor {
             // Do nothing, the user did not choose a file
         }
     }
+
+    /**
+     * Helper function for the saveProgram() method. Gets the progNode
+     * version of each Block.
+     * @return a list of ProgNode objects based on user input
+     */
     public static List<ProgNode> compileProgram() {
         List<ProgNode> prog = new ArrayList<>();
         for (Node n : commandsList.getChildren()) {
@@ -185,5 +221,4 @@ public class CodeEditor {
         }
         return prog;
     }
-
 }

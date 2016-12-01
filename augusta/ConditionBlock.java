@@ -15,6 +15,10 @@ public class ConditionBlock extends BlockControl {
     public Label elseLabel = new Label();
     private int unitHeight = 5;
 
+    /**
+     * Overridden constructor to add condition block specific
+     * UI features
+     */
     public ConditionBlock() {
         super();
         this.setUnitHeight(5);
@@ -39,6 +43,12 @@ public class ConditionBlock extends BlockControl {
         this.getChildren().add(childCommandsElse);
         this.getChildren().add(elseLabel);
     }
+
+    /**
+     * Called to add Blocks as children of this Block
+     * @param relativeHeight used to see which command comes before each other
+     * @param newCommand the new command to add
+     */
     public void addCommand(int relativeHeight, BlockControl newCommand) {
         boolean addToTopBlock = true; // If false, add to bottom block (the "else" block)
         if (relativeHeight > this.childCommandsIf.getLayoutY() + this.childCommandsIf.getHeight())
@@ -50,6 +60,12 @@ public class ConditionBlock extends BlockControl {
         recalculateSize();
     }
 
+    /**
+     * Helper method to do all of the heavy lifting for the addCommand method
+     * @param relativeHeight
+     * @param newCommand
+     * @param childCommands
+     */
     public void addCommandHelper(int relativeHeight, BlockControl newCommand, VBox childCommands) {
         if (childCommands.getChildren().size() < 1) {
             childCommands.getChildren().add(newCommand);
@@ -100,6 +116,9 @@ public class ConditionBlock extends BlockControl {
         childCommands.setPrefHeight((childrenSize + 1) * Theme.UI.BLOCK_UNIT_SIZE);
     }
 
+    /**
+     * Overridden to accomodate the different sizing requirements of condition blocks
+     */
     @Override
     public void recalculateSize() {
         int newUnitHeight = 1;

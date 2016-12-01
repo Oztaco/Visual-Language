@@ -15,9 +15,12 @@ import jdk.nashorn.internal.ir.Block;
 public class BlockControl extends Pane {
     public Label blockTypeLabel = new Label();
     private int pixelHeight = Theme.UI.BLOCK_UNIT_SIZE; // This equals unitHeight * Theme.UI.BLOCK_UNIT_SIZE
-    private int unitHeight = 1; // Should be pretty small
+    private int unitHeight = 1; // The number of lines of code this block takes up
     public BlockCategories blockCategory = BlockCategories.Command; // Default value
 
+    /**
+     * Initializes a basic BlockControl
+     */
     public BlockControl() {
         super();
         blockTypeLabel.setLayoutX(Theme.UI.BLOCK_UNIT_SIZE / 4);
@@ -54,6 +57,11 @@ public class BlockControl extends Pane {
         pixelHeight = unitHeight * Theme.UI.BLOCK_UNIT_SIZE;
     }
 
+    /**
+     * Adds the event handlers necessary to perform drag and drop operations.
+     * This particular one is just for drag and drop with existing controls,
+     * not new ones from the Palette.
+     */
     public void makeDraggable() {
         BlockControl self = this;
         this.addEventHandler(MouseEvent.MOUSE_PRESSED,
@@ -75,7 +83,7 @@ public class BlockControl extends Pane {
         });
     }
 
-
+    // The types of controls
     public enum BlockCategories {
         Command,
         Loop,
