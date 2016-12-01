@@ -1,0 +1,53 @@
+Augusta Developer
+===============================================
+
+1. How to add Blocks from the Palette
+-------------------------------------
+    1. Click and drag Blocks from the Palette to the Workspace
+    2. Once you release the Block, it will be added to the list
+        of Blocks and will be part of your program.
+    3. If a Block does not go where you wanted it to go, hold Shift,
+        and while you're holding shift click and drag it to go to
+        where you want it to go. If you don't hold shift, the
+        blocks will not rearrange.
+    4. If you no longer want a Block, hold shift, and click and drag
+        it back into the Palette.
+
+2. How to change parameter values
+---------------------------------
+Note: Each Block has a Label on the top of it that says what the block
+is, like "Turn (left)" or "If (open, left)". To change the parameters
+of a block, this is where you must click, not any other part of the block.
+
+Specific instructions:
+    IfBlocks. Left click on the Blocks' label to change the direction.
+            Right click on the Blocks' label to change the access.
+    Repeat. Left click on the Block's label to increase the number.
+            Right click on the Block's label to decrease the number.
+    Turn. Left click on the Block's label to change the direction
+            in a clockwise manner. Right click on the Block's label to change
+            the direction in a counterclockwise manner.
+    While. (same as IfBlocks) Left click on the Blocks' label to change the direction.
+            Right click on the Blocks' label to change the access.
+
+3. Design Explanation
+---------------------
+The main class is AugustaDeveloper as the design document specifies.
+The code here is mostly for the "View" in MVC. It also references the
+Theme class a lot, which holds constant values for all of the coloring
+and sizing configurations of the program. For instance, changing the
+BLOCK_WIDTH will change the width of all of the blocks and any UI
+components that depend on it.
+
+The CodeEditor class is mainly responsible for the "Controller" in MVC.
+
+All of the Blocks inherit from BlockControl, which provides the basic
+structure of a draggable Block. Two classes, LoopBlock and ConditionBlock
+extend this to add functionality that is common to loops and conditions.
+This makes it easy to modify functionality.
+
+Once the user is done, the saveProgram() method in the CodeEditor class
+is responsible for calling getProgNode() on all of the Blocks and writing
+them to a file. These progNodes represent the "model" in MVC, and by having
+this method do the heavy lifting, we effectively seperate the model from the
+view and controller.

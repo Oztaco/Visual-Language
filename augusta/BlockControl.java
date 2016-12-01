@@ -4,6 +4,7 @@ import augusta.tree.ProgNode;
 import com.sun.org.apache.bcel.internal.classfile.Code;
 import javafx.event.EventHandler;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import jdk.nashorn.internal.ir.Block;
@@ -59,7 +60,8 @@ public class BlockControl extends Pane {
                 new EventHandler<MouseEvent>() {
                     @Override
                     public void handle(MouseEvent event) {
-                        if (!CodeEditor.isDragging) {
+                        if (!event.isShiftDown()) return;
+                        if (!CodeEditor.isDragging && event.getButton() == MouseButton.PRIMARY) {
                             Pane parent = (Pane) ((Pane) self).getParent();
                             BlockControl parentBlock = null;
                             parent.getChildren().remove(self);
