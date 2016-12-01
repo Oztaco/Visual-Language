@@ -25,9 +25,17 @@ import java.util.List;
 import static augusta.CodeEditor.commandsList;
 import static augusta.CodeEditor.draggingItem;
 
+/**
+ * Provides functionality specific to loop Blocks like
+ * "While" and "Repeat"
+ * Should be overridden by any new blocks that loop
+ */
 public class LoopBlock extends BlockControl {
     public VBox childCommands = new VBox();
 
+    /**
+     * Adds UI features specific to loops
+     */
     public LoopBlock() {
         super();
         this.setUnitHeight(3);
@@ -39,6 +47,12 @@ public class LoopBlock extends BlockControl {
         childCommands.setStyle("-fx-background-color: " + Theme.UI.WORKSPACE_COLOR);
         this.getChildren().add(childCommands);
     }
+
+    /**
+     * Handles adding new Blocks as children of the loop
+     * @param relativeHeight used to determine the order of the commands
+     * @param newCommand the command to add
+     */
     public void addCommand(int relativeHeight, BlockControl newCommand) {
         if (this.childCommands.getChildren().size() < 1) {
             this.childCommands.getChildren().add(newCommand);
@@ -89,6 +103,9 @@ public class LoopBlock extends BlockControl {
         this.childCommands.setPrefHeight((childrenSize + 1) * Theme.UI.BLOCK_UNIT_SIZE);
     }
 
+    /**
+     * Overridden to accomodate the different UI features of loops
+     */
     @Override
     public void recalculateSize() {
         int childrenUnitSize = 0;

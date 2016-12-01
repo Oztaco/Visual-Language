@@ -9,6 +9,10 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import jdk.nashorn.internal.ir.Block;
 
+/**
+ * Provides functionality specific to condition blocks.
+ * Should be overridden by any Block that has conditions (not loops)
+ */
 public class ConditionBlock extends BlockControl {
     public VBox childCommandsIf = new VBox();
     public VBox childCommandsElse = new VBox();
@@ -117,7 +121,7 @@ public class ConditionBlock extends BlockControl {
     }
 
     /**
-     * Overridden to accomodate the different sizing requirements of condition blocks
+     * Overridden to accommodate the different sizing requirements of condition blocks
      */
     @Override
     public void recalculateSize() {
