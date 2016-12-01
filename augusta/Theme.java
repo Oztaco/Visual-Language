@@ -8,9 +8,10 @@ public class Theme {
         public static final int BLOCK_UNIT_SIZE = 20; // Changes height of the command blocks
         public static final int BLOCK_WIDTH = 120;
 
-        public static final String TOP_BAR_COLOR = "#ff6666";
-        public static final String PALETTE_COLOR = "#ff9999";
-        public static final String WORKSPACE_COLOR = "#ffffff";
+        public static final String TOP_BAR_COLOR = "#333333";
+        public static final String PALETTE_COLOR = "#333333";
+        public static final String WORKSPACE_COLOR = "#666666";
+        public static final String BUTTON_BASE = "#85BAFF";
     }
     public class Blocks {
         public static final String FORWARD = "#9CFF6E";

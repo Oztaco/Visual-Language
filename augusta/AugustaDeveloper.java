@@ -45,6 +45,7 @@ public class AugustaDeveloper extends Application {
                 GridPane.setColumnSpan(topBar, 2);
                 Button saveButton = new Button();
                 saveButton.setText("Save");
+                saveButton.setStyle("-fx-base: " + Theme.UI.BUTTON_BASE);
                 saveButton.addEventHandler(MouseEvent.MOUSE_CLICKED,
                     new EventHandler<MouseEvent>() {
                     @Override

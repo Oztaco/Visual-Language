@@ -27,7 +27,7 @@ public class IfBlockBlock extends ConditionBlock {
         this.setStyle("-fx-background-color: " + Theme.Blocks.IF_BLOCK);
         this.blockTypeLabel.setText("If (open, ahead)");
 
-        this.addEventHandler(MouseEvent.MOUSE_CLICKED,
+        this.blockTypeLabel.addEventHandler(MouseEvent.MOUSE_CLICKED,
                 new EventHandler<MouseEvent>() {
                     @Override
                     public void handle(MouseEvent event) {

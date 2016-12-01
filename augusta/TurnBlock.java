@@ -14,7 +14,7 @@ public class TurnBlock extends BlockControl {
     private Direction direction = Direction.RIGHT;
 
     public TurnBlock() {
-        this.blockTypeLabel.setText("Turn right");
+        this.blockTypeLabel.setText("Turn (right)");
         this.setStyle("-fx-background-color: " + Theme.Blocks.TURN);
 
         this.addEventHandler(MouseEvent.MOUSE_CLICKED,
